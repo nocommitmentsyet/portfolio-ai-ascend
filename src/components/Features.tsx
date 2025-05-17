@@ -1,5 +1,5 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 const featuresData = [
   {
@@ -16,6 +16,7 @@ const featuresData = [
     title: "Cover Letter Writer",
     description: "Create personalized cover letters for each job application with one click.",
     icon: "✉️",
+    link: "/cover-letter-writer"
   },
   {
     title: "Mock Interview Coach",
@@ -46,17 +47,27 @@ const Features = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuresData.map((feature, index) => (
-            <Card key={index} className="border border-gray-100 shadow-sm hover:shadow-md transition-all animate-scale-in">
-              <CardHeader>
-                <div className="text-3xl mb-4">{feature.icon}</div>
-                <CardTitle>{feature.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-600">{feature.description}</CardDescription>
-              </CardContent>
-            </Card>
-          ))}
+          {featuresData.map((feature, index) => {
+            const CardWrapper = (
+              <Card key={index} className="border border-gray-100 shadow-sm hover:shadow-md transition-all animate-scale-in cursor-pointer">
+                <CardHeader>
+                  <div className="text-3xl mb-4">{feature.icon}</div>
+                  <CardTitle>{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-gray-600">{feature.description}</CardDescription>
+                </CardContent>
+              </Card>
+            );
+
+            return feature.link ? (
+              <Link key={index} to={feature.link} className="block">
+                {CardWrapper}
+              </Link>
+            ) : (
+              CardWrapper
+            );
+          })}
         </div>
       </div>
     </section>
