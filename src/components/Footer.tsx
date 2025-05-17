@@ -1,9 +1,6 @@
-
 import { Link } from "react-router-dom";
-
 const Footer = () => {
-  return (
-    <footer className="bg-gray-50 border-t">
+  return <footer className="bg-gray-50 border-t">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
@@ -11,7 +8,7 @@ const Footer = () => {
               <div className="bg-portfolioai-purple text-white font-bold rounded-md p-1">
                 PA
               </div>
-              <span className="text-lg font-display font-bold">PortfolioAI</span>
+              <span className="text-lg font-display font-bold">Portfolio AI</span>
             </Link>
             <p className="mt-4 text-sm text-gray-600">
               AI-powered job search tools to help you land your dream role.
@@ -66,8 +63,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
