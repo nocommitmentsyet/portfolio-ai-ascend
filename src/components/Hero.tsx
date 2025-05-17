@@ -12,12 +12,8 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-portfolioai-purple hover:bg-portfolioai-vivid-purple text-white">
-              Create Your Portfolio
-            </Button>
-            <Button size="lg" variant="outline" className="border-portfolioai-purple text-portfolioai-purple hover:bg-portfolioai-soft-purple">
-              Generate Resume
-            </Button>
+            <Button size="lg" className="bg-portfolioai-purple hover:bg-portfolioai-vivid-purple text-white">Get Started</Button>
+            
           </div>
           
           <div className="mt-12 text-sm text-gray-500">
