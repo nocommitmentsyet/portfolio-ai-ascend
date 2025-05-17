@@ -11,7 +11,9 @@ const Navbar = () => {
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
-          
+          <Link to="/features" className="text-sm font-medium hover:text-portfolioai-purple transition-colors">
+            Features
+          </Link>
           <Link to="/pricing" className="text-sm font-medium hover:text-portfolioai-purple transition-colors">
             Pricing
           </Link>
@@ -21,7 +23,9 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" className="hidden md:flex">Sign up</Button>
+          <Button variant="ghost" size="sm" className="hidden md:flex">
+            Log in
+          </Button>
           <Button size="sm" className="bg-portfolioai-purple hover:bg-portfolioai-vivid-purple">
             Get Started
           </Button>
