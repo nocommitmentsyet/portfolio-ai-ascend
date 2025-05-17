@@ -17,7 +17,7 @@ const Hero = () => {
           </div>
           
           <div className="mt-12 text-sm text-gray-500">
-            <p>✨ No more staring at blank pages. Let AI do the heavy lifting.</p>
+            <p>✨ No more staring at blank pages. Let us do the heavy lifting.</p>
           </div>
         </div>
       </div>
