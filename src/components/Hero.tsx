@@ -6,7 +6,7 @@ const Hero = () => {
       
       <div className="container relative z-10">
         <div className="max-w-3xl mx-auto text-center animate-fade-in">
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-portfolioai-vivid-purple to-portfolioai-bright-blue md:text-5xl">Transforming Your Job Hunt Into An Offer Letter</h1>
+          <h1 className="text-4xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-portfolioai-vivid-purple to-portfolioai-bright-blue md:text-5xl">Turn Your Job Search To An Offer Letter</h1>
           <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
             Automated portfolios, résumés, and interview prep to make your job search less stressful and more successful.
           </p>
