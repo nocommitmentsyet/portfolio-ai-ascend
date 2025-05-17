@@ -1,7 +1,5 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-
 const Hero = () => {
   return <div className="relative overflow-hidden py-20 md:py-32">
       {/* Background gradient */}
@@ -16,13 +14,8 @@ const Hero = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-portfolioai-purple hover:bg-portfolioai-vivid-purple text-white">Get Started</Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-portfolioai-purple text-portfolioai-purple hover:bg-portfolioai-soft-purple"
-              asChild
-            >
-              <Link to="/cover-letter-writer">Try Cover Letter Writer</Link>
+            <Button size="lg" variant="outline" className="border-portfolioai-purple text-portfolioai-purple hover:bg-portfolioai-soft-purple" asChild>
+              
             </Button>
           </div>
           
