@@ -7,7 +7,7 @@ const Hero = () => {
       <div className="container relative z-10">
         <div className="max-w-3xl mx-auto text-center animate-fade-in">
           <h1 className="text-4xl lg:text-6xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-portfolioai-vivid-purple to-portfolioai-bright-blue font-bold md:text-5xl">Turning Resumes To Offer Letters</h1>
-          <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto md:text-lg">
+          <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
             Automated portfolios, résumés, and interview prep to make your job search less stressful and more successful.
           </p>
           
