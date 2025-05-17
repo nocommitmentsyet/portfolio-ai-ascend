@@ -1,17 +1,12 @@
-
 import { Button } from "@/components/ui/button";
-
 const Hero = () => {
-  return (
-    <div className="relative overflow-hidden py-20 md:py-32">
+  return <div className="relative overflow-hidden py-20 md:py-32">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-portfolioai-soft-purple via-white to-portfolioai-soft-blue opacity-70 z-0"></div>
       
       <div className="container relative z-10">
         <div className="max-w-3xl mx-auto text-center animate-fade-in">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-portfolioai-vivid-purple to-portfolioai-bright-blue">
-            Launch Your Career with AI Power
-          </h1>
+          <h1 className="text-4xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-portfolioai-vivid-purple to-portfolioai-bright-blue md:text-5xl">Transforming Your Job Hunt Into An Offer Letter</h1>
           <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
             Automated portfolios, résumés, and interview prep to make your job search less stressful and more successful.
           </p>
@@ -30,8 +25,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Hero;
