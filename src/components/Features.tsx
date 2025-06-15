@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 
@@ -28,6 +29,7 @@ const featuresData = [
     title: "Career Coaching",
     description: "Receive personalized advice to bridge skill gaps and boost your employability.",
     icon: "🚀",
+    link: "/career-coaching"
   },
   {
     title: "Smart Job Alerts",
