@@ -52,28 +52,34 @@ const AIPortfolioBuilder = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-portfolioai-soft-purple/50 via-white to-portfolioai-soft-blue/40 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-portfolioai-soft-purple/50 via-white to-portfolioai-soft-blue/40 flex flex-col font-sans">
       <Navbar />
       {/* MAIN CENTERED CONTENT */}
-      <div className="flex-1 flex flex-col items-center justify-center px-2 sm:px-4 py-10 md:py-16">
-        <section className="w-full max-w-[700px] md:max-w-3xl">
-          <Card className="pt-4 pb-12 px-0 md:px-0 border border-portfolioai-soft-purple/60 bg-white/80 shadow-md">
-            <CardHeader className="px-7 md:px-16 pt-9 pb-3 flex flex-col gap-0 items-center">
+      <div className="flex-1 flex flex-col items-center justify-center px-2 sm:px-6 py-10 md:py-16">
+        <section className="w-full max-w-[840px] md:max-w-4xl">
+          <Card 
+            className="pt-4 pb-14 px-1 sm:px-3 md:px-0 border border-portfolioai-soft-purple/50 bg-white/80 shadow-md shadow-portfolioai-soft-purple/20 rounded-2xl transition-all"
+            style={{ boxShadow: "0 4px 24px 0 rgba(160,139,255,0.11), 0 1.5px 8px 0 rgba(180,180,210,0.05)" }}
+          >
+            <CardHeader className="px-8 md:px-20 pt-12 pb-4 flex flex-col gap-0 items-center">
               <CardTitle>
-                <h1 className="text-4xl md:text-5xl font-extrabold font-display mt-3 mb-2 text-portfolioai-vivid-purple text-center tracking-tight">
+                <h1 className="font-display text-4xl sm:text-5xl font-extrabold mt-2 mb-0.5 text-portfolioai-vivid-purple text-center tracking-tight">
                   AI Portfolio Builder
                 </h1>
               </CardTitle>
               <CardDescription>
-                <p className="text-lg md:text-xl text-gray-600 font-medium text-center mb-1 max-w-2xl tracking-tight">
+                <p className="font-sans text-lg md:text-xl font-medium text-gray-600 text-center mb-3 max-w-2xl tracking-tight">
                   Turn your résumé or LinkedIn summary into a professional portfolio website in seconds.
                 </p>
               </CardDescription>
             </CardHeader>
-            <CardContent className="px-7 md:px-16">
-              <form onSubmit={handleGenerate} className="flex flex-col gap-8">
+            <CardContent className="px-6 md:px-20">
+              <form onSubmit={handleGenerate} className="flex flex-col gap-9">
                 <div className="flex flex-col gap-0">
-                  <label htmlFor="resume-text" className="block text-sm font-semibold text-gray-700 mb-1 mt-4">
+                  <label 
+                    htmlFor="resume-text" 
+                    className="block text-sm font-semibold text-gray-700 mb-1 mt-0 font-sans"
+                  >
                     Paste your résumé or LinkedIn summary below
                   </label>
                   <Textarea
@@ -82,15 +88,15 @@ const AIPortfolioBuilder = () => {
                     value={inputText}
                     onChange={e => setInputText(e.target.value)}
                     placeholder="Example: I'm a full-stack developer with 3 years of experience in React, Node.js…"
-                    className="min-h-[160px] rounded-lg border border-portfolioai-soft-purple/50 bg-portfolioai-soft-purple/20 text-base px-5 py-4 focus:outline-none focus:ring-2 focus:ring-portfolioai-purple resize-none"
+                    className="min-h-[180px] rounded-lg border border-portfolioai-soft-purple/60 bg-portfolioai-soft-purple/25 text-base px-5 py-5 focus:outline-none focus:ring-2 focus:ring-portfolioai-purple resize-none transition"
                     disabled={generationStatus === "generating" || generationStatus === "success"}
-                    rows={6}
+                    rows={8}
                   />
                 </div>
                 {generationStatus === "idle" && (
                   <Button
                     type="submit"
-                    className="w-full text-lg font-bold bg-portfolioai-purple hover:bg-portfolioai-vivid-purple shadow-none py-3 mt-1 mb-8"
+                    className="w-full text-lg font-bold bg-portfolioai-purple hover:bg-portfolioai-vivid-purple shadow-none py-3 mt-2 mb-12 font-sans"
                     disabled={!inputText.trim()}
                   >
                     Generate Portfolio Site
@@ -113,7 +119,7 @@ const AIPortfolioBuilder = () => {
                         d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
                       />
                     </svg>
-                    <span className="font-medium text-lg text-gray-700 text-center">
+                    <span className="font-sans font-medium text-lg text-gray-700 text-center">
                       Generating your portfolio… this may take a few seconds.
                     </span>
                   </div>
@@ -127,7 +133,7 @@ const AIPortfolioBuilder = () => {
                     <Button
                       onClick={handleDownload}
                       type="button"
-                      className="w-full md:w-auto bg-portfolioai-purple hover:bg-portfolioai-vivid-purple font-bold text-lg py-3 mt-2 mb-2"
+                      className="w-full md:w-auto bg-portfolioai-purple hover:bg-portfolioai-vivid-purple font-bold text-lg py-3 mt-2 mb-2 font-sans"
                     >
                       Download Portfolio (.html)
                     </Button>
