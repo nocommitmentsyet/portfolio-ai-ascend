@@ -17,14 +17,6 @@ const CareerCoaching = () => {
   const [inputValue, setInputValue] = useState('');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  const sampleResponses = [
-    "Great question! To transition from marketing to product management, I'd recommend focusing on these key skills:\n\n1. **Data Analysis** - Learn SQL, Excel/Google Sheets advanced functions, and basic analytics tools like Google Analytics\n\n2. **Product Thinking** - Read 'Inspired' by Marty Cagan and 'The Lean Startup'. Practice breaking down products you use daily\n\n3. **Technical Understanding** - You don't need to code, but understanding how software development works is crucial\n\n4. **User Research** - Learn interview techniques and survey design to understand customer needs\n\nStart with online courses on Coursera or Udemy for data analysis, and consider doing a product teardown exercise weekly. Would you like specific course recommendations for any of these areas?",
-    
-    "That's a common concern, and you're not alone in feeling this way. Here's how to approach skill gaps strategically:\n\n**First, assess the actual gap:**\n- Look at 10-15 job postings in your target role\n- List the skills that appear most frequently\n- Rank them by importance and your current level\n\n**Then, prioritize learning:**\n- Focus on 2-3 high-impact skills first\n- Choose skills that build on your existing strengths\n- Look for quick wins that boost confidence\n\n**Practical next steps:**\n- Dedicate 30-45 minutes daily to skill building\n- Find free resources before investing in paid courses\n- Practice with real projects, not just tutorials\n\nRemember: You don't need to be perfect at everything before applying. Many skills are learned on the job. What specific role are you targeting?",
-    
-    "Choosing between offers is exciting but challenging! Here's a framework to help you decide:\n\n**Evaluate these key factors:**\n\n1. **Growth Potential** - Which role offers more learning and advancement?\n2. **Company Culture** - Where do you feel more aligned with values and work style?\n3. **Compensation Package** - Consider total comp, not just base salary\n4. **Work-Life Balance** - How do expectations align with your lifestyle goals?\n5. **Industry Trajectory** - Which sector has better long-term prospects?\n\n**Try this exercise:**\n- Rate each offer 1-10 on factors most important to you\n- Weight the factors by personal importance\n- Calculate a score for each\n\n**Trust your gut too** - after all the analysis, which opportunity genuinely excites you more?\n\nWhat specific aspects of these roles are you most uncertain about?"
-  ];
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
@@ -37,19 +29,10 @@ const CareerCoaching = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
-
-    // Simulate AI response after a short delay
-    setTimeout(() => {
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: sampleResponses[Math.floor(Math.random() * sampleResponses.length)],
-        isUser: false,
-      };
-      
-      setMessages(prev => [...prev, aiMessage]);
-    }, 1000);
-
     setInputValue('');
+
+    // Backend integration will happen here
+    // The backend will handle the AI response and update the messages
   };
 
   // Auto-scroll to bottom when new messages are added
