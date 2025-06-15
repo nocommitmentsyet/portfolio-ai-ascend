@@ -25,6 +25,7 @@ const featuresData = [
     title: "Mock Interview Coach",
     description: "Practice with AI-powered interview simulations and get real-time feedback.",
     icon: "🎯",
+    link: "/mock-interview-coach"
   },
   {
     title: "Career Coaching",
