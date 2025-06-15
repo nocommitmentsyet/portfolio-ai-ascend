@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import CoverLetterWriter from "./pages/CoverLetterWriter";
 import ATSResume from "./pages/ATSResume";
 import CareerCoaching from "./pages/CareerCoaching";
+import AIPortfolioBuilder from "./pages/AIPortfolioBuilder";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/ai-portfolio-builder" element={<AIPortfolioBuilder />} />
           <Route path="/cover-letter-writer" element={<CoverLetterWriter />} />
           <Route path="/ats-resume" element={<ATSResume />} />
           <Route path="/career-coaching" element={<CareerCoaching />} />

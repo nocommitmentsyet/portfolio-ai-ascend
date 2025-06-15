@@ -7,6 +7,7 @@ const featuresData = [
     title: "AI Portfolio Builder",
     description: "Convert your resume or LinkedIn profile into a stunning portfolio website in minutes.",
     icon: "✨",
+    link: "/ai-portfolio-builder"
   },
   {
     title: "ATS-Friendly Resume",
