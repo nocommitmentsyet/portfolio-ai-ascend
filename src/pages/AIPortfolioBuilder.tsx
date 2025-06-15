@@ -22,7 +22,7 @@ interface GeneratedPortfolio {
 }
 
 const AIPortfolioBuilder = () => {
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedPortfolio, setGeneratedPortfolio] = useState<GeneratedPortfolio | null>(null);
   const { toast } = useToast();
@@ -32,16 +32,23 @@ const AIPortfolioBuilder = () => {
     if (!inputText.trim()) return;
 
     setIsGenerating(true);
-    
-    // Backend integration will happen here
-    // For now, simulate the generation process
+
     setTimeout(() => {
-      // Mock generated portfolio data
+      // The only field that directly reflects the user input is summary, per request
       const mockPortfolio: GeneratedPortfolio = {
         name: "John Doe",
         title: "Full Stack Developer",
-        summary: "Passionate full-stack developer with 3+ years of experience building scalable web applications using modern technologies. Skilled in React, Node.js, and cloud deployment.",
-        skills: ["React", "Node.js", "TypeScript", "Python", "AWS", "MongoDB", "PostgreSQL", "Docker"],
+        summary: inputText, // Use the pasted input directly
+        skills: [
+          "React",
+          "Node.js",
+          "TypeScript",
+          "Python",
+          "AWS",
+          "MongoDB",
+          "PostgreSQL",
+          "Docker"
+        ],
         experience: [
           {
             company: "Tech Solutions Inc.",
@@ -63,10 +70,10 @@ const AIPortfolioBuilder = () => {
           }
         ]
       };
-      
+
       setGeneratedPortfolio(mockPortfolio);
       setIsGenerating(false);
-      
+
       toast({
         title: "Portfolio Generated Successfully!",
         description: "Your portfolio site is ready to view and share.",
