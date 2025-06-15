@@ -2,312 +2,133 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Download, Copy, CheckCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import { CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-interface GeneratedPortfolio {
-  name: string;
-  title: string;
-  summary: string;
-  skills: string[];
-  experience: {
-    company: string;
-    role: string;
-    duration: string;
-    description: string;
-  }[];
-}
-
-const generatePortfolioHtml = (portfolio: GeneratedPortfolio) => {
-  return `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>${portfolio.name} | Portfolio</title>
-      <style>
-        body { font-family: 'Inter', Arial, sans-serif; background: #fafaff; margin: 0; padding: 0; color: #222; }
-        .container { max-width: 700px; margin: 40px auto; padding: 32px 24px; background: #fff; border-radius: 16px; box-shadow: 0 2px 32px 0 #6025e21A; }
-        h1 { font-size: 2.15rem; font-weight: 800; margin-top: 0; margin-bottom: 4px; }
-        h2 { font-size: 1.3rem; margin-top: 2.5rem; }
-        h3 { font-size: 1.05rem; margin-bottom: 0.75rem; margin-top: 2rem; }
-        .subtitle { color: #712be2; font-weight: 600; font-size: 1.12rem; margin-bottom: 30px; }
-        .badge { display:inline-block; color: #6025e2; background: #ede3ff; border-radius: 9999px; padding: 4px 14px; margin: 2.5px 7px 2.5px 0; font-size: 13px; font-weight: 500; letter-spacing: .02em;}
-        .experience { margin-bottom: 30px; border-left: 3px solid #8652e5; padding-left: 14px}
-        .exp-role { font-weight:600; }
-        .exp-company { color:#712be2; margin-bottom: 2px; }
-        .exp-dur { font-size:0.97em; color: #665c6e; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <h1>${portfolio.name}</h1>
-        <div class="subtitle">${portfolio.title}</div>
-        <h3>About Me</h3>
-        <p>${portfolio.summary}</p>
-        <h3>Skills</h3>
-        <div>
-          ${portfolio.skills.map(skill => `<span class="badge">${skill}</span>`).join(' ')}
-        </div>
-        <h3>Work Experience</h3>
-        <div>
-          ${portfolio.experience.map(exp => `
-            <div class="experience">
-              <span class="exp-role">${exp.role}</span>
-              <span class="exp-dur" style="float:right">${exp.duration}</span>
-              <div class="exp-company">${exp.company}</div>
-              <div>${exp.description}</div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </body>
-    </html>
-  `.trim();
-};
+type GenerationStatus = "idle" | "generating" | "success";
 
 const AIPortfolioBuilder = () => {
   const [inputText, setInputText] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedPortfolio, setGeneratedPortfolio] = useState<GeneratedPortfolio | null>(null);
-  const [portfolioHtml, setPortfolioHtml] = useState<string>('');
+  const [generationStatus, setGenerationStatus] = useState<GenerationStatus>("idle");
+  const [portfolioUrl, setPortfolioUrl] = useState<string>('');
   const { toast } = useToast();
 
+  // Simulate backend call
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputText.trim()) return;
+    if (!inputText.trim() || generationStatus === "generating") return;
 
-    setIsGenerating(true);
+    setGenerationStatus("generating");
+    setPortfolioUrl('');
 
-    // Backend integration will happen here
-    // For now, simulate the generation process
+    // Simulate backend portfolio generation and file hosting
     setTimeout(() => {
-      // Mock generated portfolio data
-      const mockPortfolio: GeneratedPortfolio = {
-        name: "John Doe",
-        title: "Full Stack Developer",
-        summary: "Passionate full-stack developer with 3+ years of experience building scalable web applications using modern technologies. Skilled in React, Node.js, and cloud deployment.",
-        skills: ["React", "Node.js", "TypeScript", "Python", "AWS", "MongoDB", "PostgreSQL", "Docker"],
-        experience: [
-          {
-            company: "Tech Solutions Inc.",
-            role: "Senior Full Stack Developer",
-            duration: "2022 - Present",
-            description: "Led development of customer-facing web applications serving 10K+ users. Implemented microservices architecture reducing load times by 40%."
-          },
-          {
-            company: "StartupCo",
-            role: "Frontend Developer",
-            duration: "2021 - 2022",
-            description: "Built responsive React applications and collaborated with design team to implement pixel-perfect UI components."
-          },
-          {
-            company: "Digital Agency",
-            role: "Junior Developer",
-            duration: "2020 - 2021",
-            description: "Developed websites for clients using HTML, CSS, JavaScript and worked on multiple CMS integrations."
-          }
-        ]
-      };
+      // In a real scenario, this URL should come from your backend.
+      // Here, we generate a Blob URL for demonstration.
+      const blob = new Blob([
+        `<!DOCTYPE html>
+        <html lang="en"><head><meta charset="UTF-8"><title>Portfolio</title></head>
+        <body><h1>Your Portfolio</h1><p>${inputText.replace(/\n/g, "<br />")}</p></body></html>`
+      ], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
 
-      setGeneratedPortfolio(mockPortfolio);
-
-      // Generate HTML for download
-      const html = generatePortfolioHtml(mockPortfolio);
-      setPortfolioHtml(html);
-
-      setIsGenerating(false);
-
+      setPortfolioUrl(url);
+      setGenerationStatus("success");
       toast({
-        title: "Portfolio Generated Successfully!",
-        description: "Your portfolio site is ready to view and share.",
+        title: "Your portfolio is ready!",
+        description: "You can now download your HTML portfolio.",
       });
     }, 2000);
   };
 
-  const handleViewFullSite = () => {
-    // Open generated HTML in new tab
-    if (!portfolioHtml) return;
-    const newWindow = window.open();
-    if (newWindow) {
-      newWindow.document.write(portfolioHtml);
-      newWindow.document.close();
-    }
-  };
-
   const handleDownload = () => {
-    if (!portfolioHtml) return;
-    const blob = new Blob([portfolioHtml], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'portfolio.html';
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-
-    toast({
-      title: "Download Started",
-      description: "Your portfolio HTML file will be downloaded shortly.",
-    });
-  };
-
-  const handleCopyLink = () => {
-    // This would copy the shareable link
-    navigator.clipboard.writeText('https://your-portfolio-url.com');
-    toast({
-      title: "Link Copied!",
-      description: "Portfolio link has been copied to your clipboard.",
-    });
+    if (!portfolioUrl) return;
+    const link = document.createElement('a');
+    link.href = portfolioUrl;
+    link.download = 'portfolio.html';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(portfolioUrl), 1000);
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
-
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-portfolioai-vivid-purple to-portfolioai-bright-blue">
-            AI Portfolio Builder
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Transform your résumé into a stunning portfolio website in seconds. Just paste your content and let AI do the rest.
-          </p>
-        </div>
-
-        {/* Input Form */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Create Your Portfolio</CardTitle>
-            <CardDescription>
-              Paste your résumé content or LinkedIn summary below to get started.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleGenerate} className="space-y-4">
-              <div>
-                <label htmlFor="resume-text" className="block text-sm font-medium text-gray-700 mb-2">
-                  Paste your résumé or LinkedIn summary
-                </label>
-                <Textarea
-                  id="resume-text"
-                  value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  placeholder="Example: I'm a full-stack developer with 3 years of experience in React, Node.js…"
-                  className="min-h-[200px] text-sm"
-                  disabled={isGenerating}
-                />
-              </div>
-
+      <div className="flex-grow flex justify-center items-center px-4 py-8">
+        <div className="w-full max-w-md space-y-8">
+          <div className="text-center mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-portfolioai-vivid-purple to-portfolioai-bright-blue">
+              AI Portfolio Builder
+            </h1>
+            <p className="text-gray-600">Turn your résumé or LinkedIn summary into a professional portfolio website with one click.</p>
+          </div>
+          <form onSubmit={handleGenerate} className="space-y-4">
+            <div>
+              <label htmlFor="resume-text" className="block text-sm font-medium text-gray-700 mb-2">
+                Paste your résumé or LinkedIn summary
+              </label>
+              <Textarea
+                id="resume-text"
+                value={inputText}
+                onChange={e => setInputText(e.target.value)}
+                placeholder="Example: I'm a full-stack developer with 3 years of experience in React, Node.js…"
+                className="min-h-[160px] text-sm"
+                disabled={generationStatus === "generating" || generationStatus === "success"}
+                required
+              />
+            </div>
+            {generationStatus !== "success" && (
               <Button
                 type="submit"
-                disabled={!inputText.trim() || isGenerating}
                 className="w-full bg-portfolioai-purple hover:bg-portfolioai-vivid-purple"
+                disabled={!inputText.trim() || generationStatus === "generating"}
               >
-                {isGenerating ? "Generating Portfolio Site..." : "Generate Portfolio Site"}
+                {generationStatus === "generating" ? "Generating your portfolio..." : "Generate Portfolio Site"}
               </Button>
-            </form>
-          </CardContent>
-        </Card>
-
-        {/* Generated Portfolio Preview */}
-        {generatedPortfolio && (
-          <div className="space-y-6 animate-fade-in">
-            {/* Success Message */}
-            <div className="flex items-center gap-2 text-green-600 bg-green-50 p-4 rounded-lg">
-              <CheckCircle size={20} />
-              <span className="font-medium">Portfolio generated successfully!</span>
+            )}
+          </form>
+          {/* Progress/Success Output */}
+          {generationStatus === "generating" && (
+            <div className="flex items-center justify-center gap-3 text-portfolioai-purple mt-2 animate-pulse">
+              <svg className="animate-spin h-5 w-5 text-portfolioai-purple" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle
+                  className="opacity-30"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-80"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                />
+              </svg>
+              <span className="font-medium">Generating your portfolio… this may take a few seconds.</span>
             </div>
-
-            {/* Preview Section */}
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Here's a preview of your portfolio</h2>
-
-              <Card className="shadow-lg">
-                <CardContent className="p-8">
-                  {/* Name and Title */}
-                  <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">{generatedPortfolio.name}</h1>
-                    <p className="text-xl text-portfolioai-purple font-medium">{generatedPortfolio.title}</p>
-                  </div>
-
-                  {/* Summary */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">About Me</h3>
-                    <p className="text-gray-700 leading-relaxed">{generatedPortfolio.summary}</p>
-                  </div>
-
-                  {/* Skills */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">Skills</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {generatedPortfolio.skills.map((skill, index) => (
-                        <Badge key={index} variant="secondary" className="bg-portfolioai-soft-purple text-portfolioai-purple">
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Experience */}
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Work Experience</h3>
-                    <div className="space-y-6">
-                      {generatedPortfolio.experience.slice(0, 3).map((exp, index) => (
-                        <div key={index} className="border-l-2 border-portfolioai-purple pl-4">
-                          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
-                            <h4 className="font-semibold text-gray-900">{exp.role}</h4>
-                            <span className="text-sm text-gray-600">{exp.duration}</span>
-                          </div>
-                          <p className="text-portfolioai-purple font-medium mb-2">{exp.company}</p>
-                          <p className="text-gray-700 text-sm">{exp.description}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                onClick={handleViewFullSite}
-                className="flex-1 bg-portfolioai-purple hover:bg-portfolioai-vivid-purple"
-              >
-                <ExternalLink size={16} className="mr-2" />
-                View Full Site
-              </Button>
-
+          )}
+          {generationStatus === "success" && (
+            <div className="space-y-5 flex flex-col items-center transition-all">
+              <div className="flex items-center gap-2 text-green-700 font-medium bg-green-50 py-3 px-4 rounded-md">
+                <CheckCircle size={20} />
+                Your portfolio is ready!
+              </div>
               <Button
                 onClick={handleDownload}
-                variant="outline"
-                className="flex-1"
-                disabled={!portfolioHtml}
+                className="w-full md:w-auto bg-portfolioai-purple hover:bg-portfolioai-vivid-purple"
               >
-                <Download size={16} className="mr-2" />
-                Download Portfolio (HTML)
-              </Button>
-
-              <Button
-                onClick={handleCopyLink}
-                variant="outline"
-                className="flex-1"
-              >
-                <Copy size={16} className="mr-2" />
-                Copy Shareable Link
+                Download Portfolio (.html)
               </Button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
 export default AIPortfolioBuilder;
+
