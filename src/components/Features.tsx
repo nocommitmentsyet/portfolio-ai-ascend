@@ -37,6 +37,7 @@ const featuresData = [
     title: "Smart Job Alerts",
     description: "Get notified about relevant job opportunities matching your skills and preferences.",
     icon: "🔔",
+    link: "/smart-job-alerts"
   },
 ];
 

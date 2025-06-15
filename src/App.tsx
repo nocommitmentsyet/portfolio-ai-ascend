@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +11,7 @@ import ATSResume from "./pages/ATSResume";
 import CareerCoaching from "./pages/CareerCoaching";
 import AIPortfolioBuilder from "./pages/AIPortfolioBuilder";
 import MockInterviewCoach from "./pages/MockInterviewCoach";
+import SmartJobAlerts from "./pages/SmartJobAlerts";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,7 @@ const App = () => (
           <Route path="/ats-resume" element={<ATSResume />} />
           <Route path="/career-coaching" element={<CareerCoaching />} />
           <Route path="/mock-interview-coach" element={<MockInterviewCoach />} />
+          <Route path="/smart-job-alerts" element={<SmartJobAlerts />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
