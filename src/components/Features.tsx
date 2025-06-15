@@ -11,6 +11,7 @@ const featuresData = [
     title: "ATS-Friendly Resume",
     description: "Generate or optimize resumes that pass through Applicant Tracking Systems with ease.",
     icon: "📄",
+    link: "/ats-resume"
   },
   {
     title: "Cover Letter Writer",
