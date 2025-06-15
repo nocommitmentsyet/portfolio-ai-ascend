@@ -20,25 +20,23 @@ const Index = () => {
             {/* Other cards/components could go here */}
             <Link
               to="/mock-interview-coach"
-              className="block"
+              className="rounded-2xl border border-portfolioai-purple bg-white shadow-md transition-transform hover:scale-[1.025] hover:shadow-lg cursor-pointer p-7 flex flex-col h-full no-underline"
               aria-label="Open Mock Interview Coach"
             >
-              <div className="rounded-2xl border border-portfolioai-purple bg-white shadow-md transition-transform hover:scale-[1.025] hover:shadow-lg cursor-pointer p-7 flex flex-col h-full">
-                <span className="text-sm font-semibold text-portfolioai-purple mb-2 uppercase tracking-wide">
-                  NEW
-                </span>
-                <h2 className="text-2xl font-display font-bold mb-1 text-gray-900">
-                  Mock Interview Coach
-                </h2>
-                <p className="text-gray-700 mb-2">
-                  Paste your résumé and job description to start a tailored interview chat
-                </p>
-                <ul className="list-disc list-inside text-gray-500 text-sm">
-                  <li>Practice realistic interviews</li>
-                  <li>Get context-aware questions</li>
-                  <li>Receive feedback tailored to your résumé</li>
-                </ul>
-              </div>
+              <span className="text-sm font-semibold text-portfolioai-purple mb-2 uppercase tracking-wide">
+                NEW
+              </span>
+              <h2 className="text-2xl font-display font-bold mb-1 text-gray-900">
+                Mock Interview Coach
+              </h2>
+              <p className="text-gray-700 mb-2">
+                Paste your résumé and job description to start a tailored interview chat
+              </p>
+              <ul className="list-disc list-inside text-gray-500 text-sm">
+                <li>Practice realistic interviews</li>
+                <li>Get context-aware questions</li>
+                <li>Receive feedback tailored to your résumé</li>
+              </ul>
             </Link>
           </div>
         </section>
