@@ -21,10 +21,60 @@ interface GeneratedPortfolio {
   }[];
 }
 
+const generatePortfolioHtml = (portfolio: GeneratedPortfolio) => {
+  return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>${portfolio.name} | Portfolio</title>
+      <style>
+        body { font-family: 'Inter', Arial, sans-serif; background: #fafaff; margin: 0; padding: 0; color: #222; }
+        .container { max-width: 700px; margin: 40px auto; padding: 32px 24px; background: #fff; border-radius: 16px; box-shadow: 0 2px 32px 0 #6025e21A; }
+        h1 { font-size: 2.15rem; font-weight: 800; margin-top: 0; margin-bottom: 4px; }
+        h2 { font-size: 1.3rem; margin-top: 2.5rem; }
+        h3 { font-size: 1.05rem; margin-bottom: 0.75rem; margin-top: 2rem; }
+        .subtitle { color: #712be2; font-weight: 600; font-size: 1.12rem; margin-bottom: 30px; }
+        .badge { display:inline-block; color: #6025e2; background: #ede3ff; border-radius: 9999px; padding: 4px 14px; margin: 2.5px 7px 2.5px 0; font-size: 13px; font-weight: 500; letter-spacing: .02em;}
+        .experience { margin-bottom: 30px; border-left: 3px solid #8652e5; padding-left: 14px}
+        .exp-role { font-weight:600; }
+        .exp-company { color:#712be2; margin-bottom: 2px; }
+        .exp-dur { font-size:0.97em; color: #665c6e; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>${portfolio.name}</h1>
+        <div class="subtitle">${portfolio.title}</div>
+        <h3>About Me</h3>
+        <p>${portfolio.summary}</p>
+        <h3>Skills</h3>
+        <div>
+          ${portfolio.skills.map(skill => `<span class="badge">${skill}</span>`).join(' ')}
+        </div>
+        <h3>Work Experience</h3>
+        <div>
+          ${portfolio.experience.map(exp => `
+            <div class="experience">
+              <span class="exp-role">${exp.role}</span>
+              <span class="exp-dur" style="float:right">${exp.duration}</span>
+              <div class="exp-company">${exp.company}</div>
+              <div>${exp.description}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </body>
+    </html>
+  `.trim();
+};
+
 const AIPortfolioBuilder = () => {
   const [inputText, setInputText] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedPortfolio, setGeneratedPortfolio] = useState<GeneratedPortfolio | null>(null);
+  const [portfolioHtml, setPortfolioHtml] = useState<string>('');
   const { toast } = useToast();
 
   const handleGenerate = async (e: React.FormEvent) => {
@@ -32,7 +82,7 @@ const AIPortfolioBuilder = () => {
     if (!inputText.trim()) return;
 
     setIsGenerating(true);
-    
+
     // Backend integration will happen here
     // For now, simulate the generation process
     setTimeout(() => {
@@ -63,10 +113,15 @@ const AIPortfolioBuilder = () => {
           }
         ]
       };
-      
+
       setGeneratedPortfolio(mockPortfolio);
+
+      // Generate HTML for download
+      const html = generatePortfolioHtml(mockPortfolio);
+      setPortfolioHtml(html);
+
       setIsGenerating(false);
-      
+
       toast({
         title: "Portfolio Generated Successfully!",
         description: "Your portfolio site is ready to view and share.",
@@ -75,12 +130,26 @@ const AIPortfolioBuilder = () => {
   };
 
   const handleViewFullSite = () => {
-    // This would open the generated portfolio in a new tab
-    window.open('#', '_blank');
+    // Open generated HTML in new tab
+    if (!portfolioHtml) return;
+    const newWindow = window.open();
+    if (newWindow) {
+      newWindow.document.write(portfolioHtml);
+      newWindow.document.close();
+    }
   };
 
   const handleDownload = () => {
-    // This would trigger the HTML download
+    if (!portfolioHtml) return;
+    const blob = new Blob([portfolioHtml], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'portfolio.html';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
     toast({
       title: "Download Started",
       description: "Your portfolio HTML file will be downloaded shortly.",
@@ -99,7 +168,7 @@ const AIPortfolioBuilder = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      
+
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -134,9 +203,9 @@ const AIPortfolioBuilder = () => {
                   disabled={isGenerating}
                 />
               </div>
-              
-              <Button 
-                type="submit" 
+
+              <Button
+                type="submit"
                 disabled={!inputText.trim() || isGenerating}
                 className="w-full bg-portfolioai-purple hover:bg-portfolioai-vivid-purple"
               >
@@ -158,7 +227,7 @@ const AIPortfolioBuilder = () => {
             {/* Preview Section */}
             <div>
               <h2 className="text-2xl font-bold mb-4">Here's a preview of your portfolio</h2>
-              
+
               <Card className="shadow-lg">
                 <CardContent className="p-8">
                   {/* Name and Title */}
@@ -207,24 +276,25 @@ const AIPortfolioBuilder = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
+              <Button
                 onClick={handleViewFullSite}
                 className="flex-1 bg-portfolioai-purple hover:bg-portfolioai-vivid-purple"
               >
                 <ExternalLink size={16} className="mr-2" />
                 View Full Site
               </Button>
-              
-              <Button 
+
+              <Button
                 onClick={handleDownload}
                 variant="outline"
                 className="flex-1"
+                disabled={!portfolioHtml}
               >
                 <Download size={16} className="mr-2" />
                 Download Portfolio (HTML)
               </Button>
-              
-              <Button 
+
+              <Button
                 onClick={handleCopyLink}
                 variant="outline"
                 className="flex-1"
