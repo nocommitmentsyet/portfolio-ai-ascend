@@ -21,113 +21,8 @@ interface GeneratedPortfolio {
   }[];
 }
 
-function parseResumeText(input: string): GeneratedPortfolio {
-  // Extremely basic parsing logic for demonstration. REAL parsing should be backend AI-powered.
-  const lines = input.split('\n').map(l => l.trim()).filter(Boolean);
-
-  let name = "";
-  let title = "";
-  let summary = "";
-  let skills: string[] = [];
-  let experience: { company: string; role: string; duration: string; description: string }[] = [];
-
-  // Try to infer fields from the resume-like pattern
-  // Assume first non-empty line(s) are name & title
-  if (lines.length) {
-    name = lines[0];
-  }
-  if (lines.length > 1) {
-    title = lines[1];
-  }
-
-  // Try finding "Skills" or "Technical Skills" section
-  let skillsIdx = lines.findIndex(l => l.toLowerCase().startsWith("skills"));
-  if (skillsIdx !== -1 && lines[skillsIdx + 1]) {
-    skills = lines[skillsIdx + 1]
-      .replace(/•/g, ',')
-      .split(/,|·|•|\|/)
-      .map(s => s.trim())
-      .filter(Boolean);
-  }
-
-  // Try to find Work Experience section
-  let expIdx = lines.findIndex(
-    l => l.toLowerCase().includes("experience") || l.toLowerCase().includes("work history")
-  );
-
-  if (expIdx !== -1) {
-    let expLines = lines.slice(expIdx + 1);
-    // Naively chunk work experience by empty lines or dashes
-    let block: string[] = [];
-    for (const line of expLines) {
-      if (!line || /^-+$/.test(line)) {
-        if (block.length >= 2) {
-          // Try to parse block into entry
-          let [roleLine, ...rest] = block;
-          let company = "";
-          let role = roleLine;
-          let duration = "";
-          let description = "";
-          if (rest.length) {
-            company = rest[0];
-            duration = rest[1] || "";
-            description = rest.slice(2).join(" ");
-          }
-          experience.push({
-            company: company,
-            role: role,
-            duration: duration,
-            description: description,
-          });
-        }
-        block = [];
-      } else {
-        block.push(line);
-      }
-    }
-    // Last block
-    if (block.length >= 2) {
-      let [roleLine, ...rest] = block;
-      let company = "";
-      let role = roleLine;
-      let duration = "";
-      let description = "";
-      if (rest.length) {
-        company = rest[0];
-        duration = rest[1] || "";
-        description = rest.slice(2).join(" ");
-      }
-      experience.push({
-        company: company,
-        role: role,
-        duration: duration,
-        description: description,
-      });
-    }
-    if (experience.length === 0) experience = [{ company: '', role: '', duration: '', description: expLines.join(' ') }];
-  }
-
-  // Summary is everything before skills or experience, after title
-  let beforeSkillsOrExp = Math.min(
-    skillsIdx !== -1 ? skillsIdx : lines.length,
-    expIdx !== -1 ? expIdx : lines.length
-  );
-  let summaryLines = lines.slice(2, beforeSkillsOrExp);
-  summary = summaryLines.join(' ');
-  if (!summary && lines.length >= 3) summary = lines.slice(2).join(' ');
-
-  // Fallbacks: If parsing failed, fill the fields to something reasonable
-  if (!name) name = "(Your Name)";
-  if (!title) title = "Professional Title";
-  if (!summary) summary = input;
-  if (!skills.length) skills = [];
-  if (!experience.length) experience = [];
-
-  return { name, title, summary, skills, experience: experience.slice(0, 3) };
-}
-
 const AIPortfolioBuilder = () => {
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedPortfolio, setGeneratedPortfolio] = useState<GeneratedPortfolio | null>(null);
   const { toast } = useToast();
@@ -137,26 +32,55 @@ const AIPortfolioBuilder = () => {
     if (!inputText.trim()) return;
 
     setIsGenerating(true);
-
+    
+    // Backend integration will happen here
+    // For now, simulate the generation process
     setTimeout(() => {
-      const parsedPortfolio = parseResumeText(inputText);
-
-      setGeneratedPortfolio(parsedPortfolio);
+      // Mock generated portfolio data
+      const mockPortfolio: GeneratedPortfolio = {
+        name: "John Doe",
+        title: "Full Stack Developer",
+        summary: "Passionate full-stack developer with 3+ years of experience building scalable web applications using modern technologies. Skilled in React, Node.js, and cloud deployment.",
+        skills: ["React", "Node.js", "TypeScript", "Python", "AWS", "MongoDB", "PostgreSQL", "Docker"],
+        experience: [
+          {
+            company: "Tech Solutions Inc.",
+            role: "Senior Full Stack Developer",
+            duration: "2022 - Present",
+            description: "Led development of customer-facing web applications serving 10K+ users. Implemented microservices architecture reducing load times by 40%."
+          },
+          {
+            company: "StartupCo",
+            role: "Frontend Developer",
+            duration: "2021 - 2022",
+            description: "Built responsive React applications and collaborated with design team to implement pixel-perfect UI components."
+          },
+          {
+            company: "Digital Agency",
+            role: "Junior Developer",
+            duration: "2020 - 2021",
+            description: "Developed websites for clients using HTML, CSS, JavaScript and worked on multiple CMS integrations."
+          }
+        ]
+      };
+      
+      setGeneratedPortfolio(mockPortfolio);
       setIsGenerating(false);
-
+      
       toast({
         title: "Portfolio Generated Successfully!",
         description: "Your portfolio site is ready to view and share.",
       });
-    }, 800);
+    }, 2000);
   };
 
   const handleViewFullSite = () => {
-    // In a real app, this would open the user's portfolio site
+    // This would open the generated portfolio in a new tab
     window.open('#', '_blank');
   };
 
   const handleDownload = () => {
+    // This would trigger the HTML download
     toast({
       title: "Download Started",
       description: "Your portfolio HTML file will be downloaded shortly.",
@@ -164,6 +88,7 @@ const AIPortfolioBuilder = () => {
   };
 
   const handleCopyLink = () => {
+    // This would copy the shareable link
     navigator.clipboard.writeText('https://your-portfolio-url.com');
     toast({
       title: "Link Copied!",
@@ -174,7 +99,7 @@ const AIPortfolioBuilder = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-
+      
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -209,7 +134,7 @@ const AIPortfolioBuilder = () => {
                   disabled={isGenerating}
                 />
               </div>
-
+              
               <Button 
                 type="submit" 
                 disabled={!inputText.trim() || isGenerating}
@@ -223,7 +148,7 @@ const AIPortfolioBuilder = () => {
 
         {/* Generated Portfolio Preview */}
         {generatedPortfolio && (
-          <div className="space-y-6">
+          <div className="space-y-6 animate-fade-in">
             {/* Success Message */}
             <div className="flex items-center gap-2 text-green-600 bg-green-50 p-4 rounded-lg">
               <CheckCircle size={20} />
@@ -233,7 +158,7 @@ const AIPortfolioBuilder = () => {
             {/* Preview Section */}
             <div>
               <h2 className="text-2xl font-bold mb-4">Here's a preview of your portfolio</h2>
-
+              
               <Card className="shadow-lg">
                 <CardContent className="p-8">
                   {/* Name and Title */}
@@ -249,7 +174,6 @@ const AIPortfolioBuilder = () => {
                   </div>
 
                   {/* Skills */}
-                  {generatedPortfolio.skills.length > 0 && (
                   <div className="mb-8">
                     <h3 className="text-lg font-semibold text-gray-900 mb-3">Skills</h3>
                     <div className="flex flex-wrap gap-2">
@@ -260,14 +184,12 @@ const AIPortfolioBuilder = () => {
                       ))}
                     </div>
                   </div>
-                  )}
 
                   {/* Experience */}
-                  {generatedPortfolio.experience.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Work Experience</h3>
                     <div className="space-y-6">
-                      {generatedPortfolio.experience.map((exp, index) => (
+                      {generatedPortfolio.experience.slice(0, 3).map((exp, index) => (
                         <div key={index} className="border-l-2 border-portfolioai-purple pl-4">
                           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
                             <h4 className="font-semibold text-gray-900">{exp.role}</h4>
@@ -279,7 +201,6 @@ const AIPortfolioBuilder = () => {
                       ))}
                     </div>
                   </div>
-                  )}
                 </CardContent>
               </Card>
             </div>
@@ -320,4 +241,3 @@ const AIPortfolioBuilder = () => {
 };
 
 export default AIPortfolioBuilder;
-
