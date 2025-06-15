@@ -244,11 +244,6 @@ Responsibilities include developing user interfaces, optimizing application perf
                             </p>
                           </div>
                         </div>
-                        <div className="mt-4">
-                          <Button variant="outline" size="sm" className="text-portfolioai-purple border-portfolioai-purple hover:bg-portfolioai-soft-purple">
-                            Apply Fix
-                          </Button>
-                        </div>
                       </div>
                     ))}
                   </div>
